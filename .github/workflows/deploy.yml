@@ -23,10 +23,6 @@ jobs:
         run: |
           docker build -t k8s-lab:latest .
 
-      - name: Importa immagine in k3s
-        run: |
-          docker save k8s-lab:latest | sudo k3s ctr images import -
-
       - name: Deploy su Kubernetes
         run: |
           kubectl apply -f k8s/deployment.yaml
