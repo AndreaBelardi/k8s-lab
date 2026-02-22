@@ -13,18 +13,18 @@ jobs:
       - name: Checkout codice
         uses: actions/checkout@v4
 
-      - name: Debug files
-        run: |
-          pwd
-          ls -la
-          ls -la k8s/
-
       - name: Build immagine Docker
         run: |
           docker build -t k8s-lab:latest .
+
+      - name: Importa immagine in k3s
+        run: |
+          sudo k3s ctr images rm docker.io/library/k8s-lab:latest || true
+          docker save k8s-lab:latest | sudo k3s ctr images import -
 
       - name: Deploy su Kubernetes
         run: |
           kubectl apply -f k8s/deployment.yaml
           kubectl apply -f k8s/service.yaml
           kubectl rollout restart deployment/k8s-lab
+          kubectl rollout status deployment/k8s-lab
