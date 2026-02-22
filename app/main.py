@@ -17,4 +17,6 @@ def info():
         "version": "1.0.0",
         "description": "La mia prima app su Kubernetes"
     }
-
+@app.get("/saluta/{nome}")
+def saluta(nome: str):
+    return {"messaggio": f"Ciao {nome}, benvenuto nel cluster k3s!"}
