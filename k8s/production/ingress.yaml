@@ -2,11 +2,12 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: k8s-lab
+  namespace: production
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: web
 spec:
   rules:
-  - host: k8s-lab.local
+  - host: production.k8s-lab.local
     http:
       paths:
       - path: /
