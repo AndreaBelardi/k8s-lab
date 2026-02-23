@@ -29,6 +29,8 @@ jobs:
 
       - name: Deploy su Staging
         run: |
+          kubectl apply -f k8s/staging/configmap.yaml
+          kubectl apply -f k8s/staging/secret.yaml
           kubectl apply -f k8s/base/deployment.yaml -n staging
           kubectl apply -f k8s/base/service.yaml -n staging
           kubectl apply -f k8s/base/ingress.yaml -n staging
@@ -45,6 +47,8 @@ jobs:
 
       - name: Deploy su Production
         run: |
+          kubectl apply -f k8s/production/configmap.yaml
+          kubectl apply -f k8s/production/secret.yaml
           kubectl apply -f k8s/base/deployment.yaml -n production
           kubectl apply -f k8s/base/service.yaml -n production
           kubectl apply -f k8s/base/ingress.yaml -n production

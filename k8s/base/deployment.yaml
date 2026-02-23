@@ -20,6 +20,11 @@ spec:
         imagePullPolicy: Never
         ports:
         - containerPort: 8000
+        envFrom:
+        - configMapRef:
+            name: k8s-lab-config
+        - secretRef:
+            name: k8s-lab-secret
         livenessProbe:
           httpGet:
             path: /health
