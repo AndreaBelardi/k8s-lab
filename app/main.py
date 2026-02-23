@@ -8,7 +8,7 @@ def root():
 
 @app.get("/health")
 def health():
-    return {"status": "healthy"}
+    raise Exception("Servizio non disponibile!")
 
 @app.get("/info")
 def info():
