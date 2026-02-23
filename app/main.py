@@ -8,7 +8,7 @@ def root():
 
 @app.get("/health")
 def health():
-    raise Exception("Servizio non disponibile!")
+    return {"status": "healthy"}
 
 @app.get("/info")
 def info():
@@ -17,6 +17,7 @@ def info():
         "version": "1.0.0",
         "description": "La mia prima app su Kubernetes"
     }
+
 @app.get("/saluta/{nome}")
 def saluta(nome: str):
     return {"messaggio": f"Ciao {nome}, benvenuto nel cluster k3s!"}
