@@ -15,8 +15,8 @@ deploy-staging:
           kubectl rollout restart deployment/k8s-lab -n staging
           kubectl rollout status deployment/k8s-lab -n staging
 
-  deploy-production:
-    runs-on: self-hosted
+deploy-production:
+   runs-on: self-hosted
     needs: deploy-staging
     environment: production
     steps:
