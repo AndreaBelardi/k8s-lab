@@ -1,4 +1,26 @@
-deploy-staging:
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout codice
+        uses: actions/checkout@v4
+
+      - name: Build immagine Docker
+        run: docker build -t k8s-lab:latest .
+
+      - name: Importa immagine in k3s
+        run: |
+          sudo k3s ctr images rm docker.io/library/k8s-lab:latest || true
+          docker save k8s-lab:latest | sudo k3s ctr images import -
+
+  deploy-staging:
     runs-on: self-hosted
     needs: build
     steps:
@@ -15,8 +37,8 @@ deploy-staging:
           kubectl rollout restart deployment/k8s-lab -n staging
           kubectl rollout status deployment/k8s-lab -n staging
 
-deploy-production:
-   runs-on: self-hosted
+  deploy-production:
+    runs-on: self-hosted
     needs: deploy-staging
     environment: production
     steps:
