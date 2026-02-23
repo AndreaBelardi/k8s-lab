@@ -6,26 +6,47 @@ on:
       - main
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: self-hosted
-
     steps:
       - name: Checkout codice
         uses: actions/checkout@v4
 
       - name: Build immagine Docker
-        run: |
-          docker build -t k8s-lab:latest .
+        run: docker build -t k8s-lab:latest .
 
       - name: Importa immagine in k3s
         run: |
           sudo k3s ctr images rm docker.io/library/k8s-lab:latest || true
           docker save k8s-lab:latest | sudo k3s ctr images import -
 
-      - name: Deploy su Kubernetes
+  deploy-staging:
+    runs-on: self-hosted
+    needs: build
+    steps:
+      - name: Checkout codice
+        uses: actions/checkout@v4
+
+      - name: Deploy su Staging
         run: |
-          kubectl apply -f k8s/deployment.yaml
-          kubectl apply -f k8s/service.yaml
-          kubectl apply -f k8s/ingress.yaml
-          kubectl rollout restart deployment/k8s-lab
-          kubectl rollout status deployment/k8s-lab
+          kubectl apply -f k8s/base/deployment.yaml -n staging
+          kubectl apply -f k8s/base/service.yaml -n staging
+          kubectl apply -f k8s/base/ingress.yaml -n staging
+          kubectl rollout restart deployment/k8s-lab -n staging
+          kubectl rollout status deployment/k8s-lab -n staging
+
+  deploy-production:
+    runs-on: self-hosted
+    needs: deploy-staging
+    environment: production
+    steps:
+      - name: Checkout codice
+        uses: actions/checkout@v4
+
+      - name: Deploy su Production
+        run: |
+          kubectl apply -f k8s/base/deployment.yaml -n production
+          kubectl apply -f k8s/base/service.yaml -n production
+          kubectl apply -f k8s/base/ingress.yaml -n production
+          kubectl rollout restart deployment/k8s-lab -n production
+          kubectl rollout status deployment/k8s-lab -n production
