@@ -67,3 +67,11 @@ def delete_todo(todo_id: int, db: Session = Depends(get_db)):
     if deleted is None:
         raise HTTPException(status_code=404, detail="Todo non trovato")
     return deleted
+
+@app.get("/version")
+def version():
+    return {
+        "version": APP_VERSION,
+        "environment": ENVIRONMENT,
+        "message": "Nuova funzionalità deployata con ArgoCD!"
+    }
