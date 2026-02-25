@@ -20,45 +20,4 @@ jobs:
           sudo k3s ctr images rm docker.io/library/k8s-lab:latest || true
           docker save k8s-lab:latest | sudo k3s ctr images import -
 
-  deploy-staging:
-    runs-on: self-hosted
-    needs: build
-    steps:
-      - name: Checkout codice
-        uses: actions/checkout@v4
-
-      - name: Deploy su Staging
-        run: |
-          kubectl apply -f k8s/staging/configmap.yaml
-          kubectl apply -f k8s/staging/secret.yaml
-          kubectl apply -f k8s/base/postgres-pvc.yaml -n staging
-          kubectl apply -f k8s/base/postgres-statefulset.yaml -n staging
-          kubectl apply -f k8s/base/postgres-service.yaml -n staging
-          kubectl rollout status statefulset/postgres -n staging --timeout=60s
-          kubectl apply -f k8s/base/deployment.yaml -n staging
-          kubectl apply -f k8s/base/service.yaml -n staging
-          kubectl apply -f k8s/staging/ingress.yaml
-          kubectl rollout restart deployment/k8s-lab -n staging
-          kubectl rollout status deployment/k8s-lab -n staging
-
-  deploy-production:
-    runs-on: self-hosted
-    needs: deploy-staging
-    environment: production
-    steps:
-      - name: Checkout codice
-        uses: actions/checkout@v4
-
-      - name: Deploy su Production
-        run: |
-          kubectl apply -f k8s/production/configmap.yaml
-          kubectl apply -f k8s/production/secret.yaml
-          kubectl apply -f k8s/base/postgres-pvc.yaml -n production
-          kubectl apply -f k8s/base/postgres-statefulset.yaml -n production
-          kubectl apply -f k8s/base/postgres-service.yaml -n production
-          kubectl rollout status statefulset/postgres -n production --timeout=60s
-          kubectl apply -f k8s/base/deployment.yaml -n production
-          kubectl apply -f k8s/base/service.yaml -n production
-          kubectl apply -f k8s/production/ingress.yaml
-          kubectl rollout restart deployment/k8s-lab -n production
-          kubectl rollout status deployment/k8s-lab -n production
+ 
