@@ -14,6 +14,8 @@ spec:
     metadata:
       labels:
         app: k8s-lab
+      annotations:
+        argocd.argoproj.io/sync-options: RespectIgnoreDifferences=true  
     spec:
       containers:
       - name: k8s-lab
