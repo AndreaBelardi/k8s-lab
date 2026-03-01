@@ -4,6 +4,7 @@ metadata:
   name: k8s-lab
   labels:
     app: k8s-lab
+    app.kubernetes.io/version: "initial"
 spec:
   replicas: 2
   selector:
@@ -17,9 +18,16 @@ spec:
       containers:
       - name: k8s-lab
         image: k8s-lab:latest
-        imagePullPolicy: Never
+        imagePullPolicy: Always
         ports:
         - containerPort: 8000
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
         envFrom:
         - configMapRef:
             name: k8s-lab-config
