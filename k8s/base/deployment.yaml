@@ -18,7 +18,7 @@ spec:
       containers:
       - name: k8s-lab
         image: k8s-lab:latest
-        imagePullPolicy: Always
+        imagePullPolicy: Never
         ports:
         - containerPort: 8000
         resources:
