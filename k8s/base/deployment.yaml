@@ -14,12 +14,12 @@ spec:
     metadata:
       labels:
         app: k8s-lab
-      annotations:
-        argocd.argoproj.io/sync-options: RespectIgnoreDifferences=true  
     spec:
+      imagePullSecrets:
+      - name: ghcr-secret
       containers:
       - name: k8s-lab
-        image: ghcr.io/andreaberaldi/k8s-lab:latest
+        image: ghcr.io/andreabelardi/k8s-lab:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 8000
