@@ -19,8 +19,8 @@ spec:
     spec:
       containers:
       - name: k8s-lab
-        image: k8s-lab:latest
-        imagePullPolicy: Never
+        image: ghcr.io/andreaberaldi/k8s-lab:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 8000
         resources:
