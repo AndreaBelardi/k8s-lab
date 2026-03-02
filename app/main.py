@@ -16,7 +16,7 @@ SECRET_KEY = os.getenv("SECRET_KEY", "not-set")
 @app.get("/")
 def root():
     return {
-        "message": "Todo Manager API",
+        "message": "Ciao dal cluster k3s! - v2",
         "status": "ok",
         "environment": ENVIRONMENT
     }
