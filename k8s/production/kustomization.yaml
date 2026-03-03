@@ -8,6 +8,7 @@ resources:
 - configmap.yaml
 - secret.yaml
 - ingress.yaml
+- certificate.yaml
 
 images:
 - name: ghcr.io/andreabelardi/k8s-lab

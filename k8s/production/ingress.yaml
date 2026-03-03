@@ -4,8 +4,13 @@ metadata:
   name: k8s-lab
   namespace: production
   annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: web
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
 spec:
+  tls:
+  - hosts:
+    - production.k8s-lab.local
+    secretName: k8s-lab-production-tls
   rules:
   - host: production.k8s-lab.local
     http:

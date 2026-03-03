@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: k8s-lab-staging-tls
+  namespace: staging
+spec:
+  secretName: k8s-lab-staging-tls
+  issuerRef:
+    name: selfsigned-issuer
+    kind: ClusterIssuer
+  dnsNames:
+  - staging.k8s-lab.local

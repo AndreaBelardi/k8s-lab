@@ -4,8 +4,13 @@ metadata:
   name: k8s-lab
   namespace: staging
   annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: web
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
 spec:
+  tls:
+  - hosts:
+    - staging.k8s-lab.local
+    secretName: k8s-lab-staging-tls
   rules:
   - host: staging.k8s-lab.local
     http:
