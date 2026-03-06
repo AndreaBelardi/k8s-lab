@@ -13,3 +13,8 @@ resources:
 images:
 - name: ghcr.io/andreabelardi/k8s-lab
   newTag: latest
+
+
+commonLabels:
+  environment: staging
+  
