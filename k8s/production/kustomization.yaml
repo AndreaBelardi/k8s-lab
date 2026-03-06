@@ -23,5 +23,5 @@ patches:
     kind: Deployment
     name: k8s-lab
 
-commonLabels:
-  environment: production    
+commonAnnotations:
+  environment: production
