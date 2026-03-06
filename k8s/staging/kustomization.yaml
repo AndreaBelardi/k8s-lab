@@ -6,7 +6,7 @@ namespace: staging
 resources:
 - ../base
 - configmap.yaml
-- secret.yaml
+- sealed-secret.yaml
 - ingress.yaml
 - certificate.yaml
 
